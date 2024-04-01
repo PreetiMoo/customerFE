@@ -1,9 +1,13 @@
 import axios from "axios";
 import { Button, Card } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const PlanCard = ({ planList }) => {
   const [planName, setPlanName] = useState([]);
+  const navigate = useNavigate();
+  const primaryColor = localStorage.getItem("primary_color");
+  const secondaryColor = localStorage.getItem("secondary_color");
 
   const addToCart = async (id) => {
     // Check if the customer is logged in
@@ -36,6 +40,7 @@ const PlanCard = ({ planList }) => {
 
         // Alert the user that the item was added to the cart
         alert("Plan subscribed!");
+        navigate("/subscriptions");
       } catch (error) {
         console.error("Error adding item to cart:", error);
         // Handle errors, such as displaying an error message to the user
@@ -55,17 +60,13 @@ const PlanCard = ({ planList }) => {
   };
 
   return (
-    <div>
+    <div style={{backgroundColor : primaryColor, color : secondaryColor}}>
       {planList &&
         planList.map((planObj, index) => (
-          <div key={planObj.subsPlan.id}>
-            <Button
-              style={{ variant: "warning" }}
-              onClick={() => addToCart(planObj.subsPlan)}>
-              Purchase
-            </Button>
-            <Card style={{ marginBottom: "20px" }}>
-              <Card.Body>
+          <div style={{width : "100%", display: "flex",justifyContent: "center"}} key={planObj.subsPlan.id}>
+            
+            <Card style={{ margin: "20px", width: "90%"}}>
+              <Card.Body style={{ color: secondaryColor }}>
                 <Card.Title>{planObj.subsPlan.plan_name}</Card.Title>
                 <Card.Text>
                   <strong>Description:</strong> {planObj.subsPlan.description}
@@ -75,6 +76,11 @@ const PlanCard = ({ planList }) => {
                   <strong>Price:</strong> {planObj.subsPlan.price}
                   <br />
                   <strong>Duration:</strong> {planObj.subsPlan.duration}
+                  <Button
+              style={{ backgroundColor : primaryColor, color : secondaryColor, display:"block" }}
+              onClick={() => addToCart(planObj.subsPlan)}>
+              Subscribe
+            </Button>
                 </Card.Text>
                 {planObj.products && planObj.products.length > 0 && (
                   <div>
@@ -109,7 +115,8 @@ const PlanCard = ({ planList }) => {
                                   <br />
                                   <strong>Price:</strong> {product.price}
                                   <br />
-                                  <strong>Image:</strong> {product.image}
+                                  
+                                  
                                 </Card.Text>
                                 {/* <Button variant="primary">Go somewhere</Button> */}
                               </Card.Body>

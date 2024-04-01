@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Button } from 'react-bootstrap';
 
+const primaryColor = localStorage.getItem("primary_color");
+  const secondaryColor = localStorage.getItem("secondary_color");
+  
 const AddPost = ({ onPostSuccess, userID}) => {
   const [formData, setFormData] = useState({
     title: "preeti",
@@ -51,7 +54,7 @@ const AddPost = ({ onPostSuccess, userID}) => {
         </label>
         <br />
         {/* <button type="submit">Submit</button> */}
-        <Button variant="warning" type="submit">Submit</Button>
+        <Button style={{ backgroundColor : primaryColor, color : secondaryColor}} type="submit">Submit</Button>
       </form>
     </div>
   );

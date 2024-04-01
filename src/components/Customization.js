@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // for making HTTP requests
+import { Card, Accordion, Button } from "react-bootstrap";
 
 function Customization() {
     const [logoUrl, setLogoUrl] = useState('');
-    const [primaryColor, setPrimaryColor] = useState('#000000'); // Default to black
-    const [secondaryColor, setSecondaryColor] = useState('#000000'); // Default to black
+    // const [primaryColor, setPrimaryColor] = useState('#000000'); // Default to black
+    // const [secondaryColor, setSecondaryColor] = useState('#000000'); // Default to black
     const [merchantLink, setMerchantLink] = useState('');
     const [copySuccess, setCopySuccess] = useState('');
+    const primaryColor = localStorage.getItem("primary_color");
+  const secondaryColor = localStorage.getItem("secondary_color");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -69,15 +72,15 @@ function Customization() {
                     <label>Logo URL:</label>
                     <input type="text" value={logoUrl} onChange={(e) => setLogoUrl(e.target.value)} />
                 </div>
-                <div>
+                {/* <div>
                     <label>Primary Color:</label>
                     <input type="color" value={primaryColor} onChange={(e) => setPrimaryColor(e.target.value)} />
                 </div>
                 <div>
                     <label>Secondary Color:</label>
                     <input type="color" value={secondaryColor} onChange={(e) => setSecondaryColor(e.target.value)} />
-                </div>
-                <button type="submit">Save</button>
+                </div> */}
+                <Button style={{ backgroundColor : primaryColor, color : secondaryColor }} type="submit">Save</Button>
             </form>
             {merchantLink && (
                 <div>

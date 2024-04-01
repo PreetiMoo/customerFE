@@ -63,9 +63,9 @@ const CustomerLogin = () => {
 
   return (
     <div style={{ height: "88%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div className='login-div' style={{ width: "45%",    backgroundColor: "#0b0b0a26", display: "flex", justifyContent: "space-around", alignItems: "center", borderRadius: "50px" }}>
+      <div className='login-div' style={{ width: "45%", display: "flex", justifyContent: "space-around", alignItems: "center", borderRadius: "50px" }}>
         <h2 style={{ flexGrow: "1" }}>Customer Login</h2>
-        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+        {errorMessage && <p>{errorMessage}</p>}
         <form onSubmit={handleLogin} style={{ flexGrow: "2", display: "flex", alignItems: "center", flexDirection: "column" }}>
           <label>
             Username:

@@ -10,6 +10,8 @@ const Products = () => {
   const [image, setImage] = useState('');
   const [productList, setProductList] = useState([]);
   const [accessToken, setToken] = useState('');
+  const primaryColor = localStorage.getItem("primary_color");
+  const secondaryColor = localStorage.getItem("secondary_color");
   
 
   useEffect(() => {
@@ -87,7 +89,7 @@ const Products = () => {
   
 
   return (
-    <div style={{backgroundColor:"cornsilk", height:"inherit"}}>
+    <div style={{height:"inherit"}}>
       <h2 style={{margin:"15px"}}>Add Product</h2>
       <form onSubmit={handleAddProduct} style={{display: "inline-flex", alignItems: "center", margin:"20px"}}>
   <label style={{marginRight:"20px"}}>
@@ -128,7 +130,7 @@ const Products = () => {
 </label>
   <br />
   {/* <button type="submit">Add product</button> */}
-  <Button variant="warning" type="submit">Add product</Button>
+  <Button style={{ backgroundColor : primaryColor, color : secondaryColor }} type="submit">Add product</Button>
 </form>
 
 

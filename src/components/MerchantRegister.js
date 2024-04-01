@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
 
+const primaryColor = localStorage.getItem("primary_color");
+const secondaryColor = localStorage.getItem("secondary_color");
 
 const MerchantRegister = () => {
   const [formData, setFormData] = useState({
@@ -53,10 +55,10 @@ const MerchantRegister = () => {
 
   return (
     <div style={{height:"100%", display: "flex",alignItems: "center", justifyItems: "center"}}>
-      <div className='login-div' style={{height: "40%", width: "45%", color: "crimson", backgroundColor: "cornsilk", display: "flex", justifyContent: "space-around", alignItems: "center",borderRadius: "50px", padding: "0.5rem"}}>
+      <div className='login-div' style={{height: "40%", width: "45%", display: "flex", justifyContent: "space-around", alignItems: "center",borderRadius: "50px", padding: "0.5rem"}}>
         <h2 style={{flexGrow: "1"}}>Merchant Registration</h2>
-        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+        {errorMessage && <p >{errorMessage}</p>}
+        {successMessage && <p>{successMessage}</p>}
         <form onSubmit={handleSubmit} style={{flexGrow: "2", display: "flex", alignItems: "center", flexDirection: "column"}}>
           <label>
             Username:
@@ -74,7 +76,7 @@ const MerchantRegister = () => {
           </label>
           <br />
           {/* <button type="submit">Register</button> */}
-          <Button variant="warning" type="submit">Register</Button>
+          <Button style={{ backgroundColor : primaryColor, color : secondaryColor}} type="submit">Register</Button>
         </form>
       </div>
     </div>

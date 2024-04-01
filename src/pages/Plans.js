@@ -13,12 +13,12 @@ const Plans = () => {
   const [productList, setProductList] = useState([]);
   const [planList, setPlanList] = useState([]);
   const [accessToken, setToken] = useState('');
+  const primaryColor = localStorage.getItem("primary_color");
+  const secondaryColor = localStorage.getItem("secondary_color");
 
   useEffect(() => {
-    
-    
-
     fetchData();
+    fetchCustomization();
     
     const storedToken = localStorage.getItem('accessToken');
     if (storedToken) {
@@ -50,6 +50,30 @@ const Plans = () => {
       console.log("Plan List:", planResponse.data.allSubsPlans);
     } catch (error) {
       console.error('Error fetching data:', error);
+    }
+  };
+
+  const fetchCustomization = async () => {
+    try {
+      const queryParams = new URLSearchParams(window.location.search);
+      const merchant_id = queryParams.get('merchant_id');
+      localStorage.setItem("merchantID", merchant_id);
+      const storedToken = localStorage.getItem("accessToken");
+      const productResponse = await axios.get(
+        `http://localhost:8000/merchCustom/getCustomization?merchant_id=${merchant_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`
+          }
+        }
+      );
+      console.log("Customization:", productResponse.data); 
+    localStorage.setItem("logo_url", productResponse.data[0].logo_url)
+    localStorage.setItem("primary_color", productResponse.data[0].primary_color_schema)
+    localStorage.setItem("secondary_color", productResponse.data[0].secondary_color_schema)
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -119,11 +143,11 @@ const Plans = () => {
   
 
   return (
-    <div style={{backgroundColor: "cornsilk"}}>
-      <h2 style={{margin:"20px"}}>Add Plan</h2>
+    <div style={{backgroundColor : primaryColor, color : secondaryColor}}>
+      {/* <h2 style={{margin:"20px"}}>Add Plan</h2> */}
       
-      <div style={{}}>
-      <h2 style={{marginTop:"35px", marginLeft:"15px"}}>Plan List</h2>
+      <div>
+      <h2 style={{padding:"2rem", marginLeft:"15px"}}>Plan List</h2>
       <PlanCard planList={planList}/>
       
       </div>

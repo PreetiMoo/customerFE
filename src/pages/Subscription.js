@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
 
 function Subscription() {
     const [subscriptions, setSubscriptions] = useState([]);
     const [accessToken, setToken] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchData();
@@ -32,8 +36,58 @@ function Subscription() {
         }
     };
 
+
+    const getCustomerIdFromToken = (accessToken) => {
+        // Implement your logic to extract customer ID from the access token
+        // For example, decode the token and extract the customer ID
+        // Return the customer ID
+      };
+      
+    const addToCart = async (id) => {
+        // Check if the customer is logged in
+        const customerAccessToken = localStorage.getItem("customerAccessToken");
+        if (customerAccessToken) {
+          try {
+            // Get the customer ID from the access token
+            const customerId = getCustomerIdFromToken(customerAccessToken);
+            const storedToken = localStorage.getItem("customerAccessToken");
+    
+            // Make a POST request to your API endpoint
+            console.log("Stored Token:", storedToken);
+            const response = await axios.post(
+              "http://localhost:8000/payment/makePayment/",
+              {
+                subscription_id: id,
+                
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${storedToken}` // Set token in the Authorization header
+                }
+              }
+            );
+    
+            console.log("Response:", response);
+            window.location.href = response.data.paymentLink.url
+            // Handle the response as needed
+            console.log(response.data); // Log the response data or handle it according to your requirements
+    
+            // Alert the user that the item was added to the cart
+            alert("Plan subscribed!");
+            navigate("/subscriptions");
+          } catch (error) {
+            console.error("Error adding item to cart:", error);
+            // Handle errors, such as displaying an error message to the user
+            alert("Error adding item to cart. Please try again later.");
+          }
+        } else {
+          // If the customer is not logged in, display an alert message
+          alert("Please login to purchase.");
+        }
+      };
+
     return (
-        <div className="container">
+        <div className="container" style={{minWidth:"100%"}}>
             <h1>Subscriptions</h1>
             <div className="row">
                 {subscriptions.map(subscription => (
@@ -46,6 +100,11 @@ function Subscription() {
                                 <p className="card-text">Start Time: {subscription.start_time}</p>
                                 <p className="card-text">End Time: {subscription.end_time}</p>
                                 <p className="card-text">Merchant ID: {subscription.merchant_id}</p>
+                                <Button
+              style={{ variant: "warning", display:"block" }}
+              onClick={() => addToCart(subscription.id )}>
+              Make payment
+            </Button>
                             </div>
                         </div>
                     </div>
@@ -54,6 +113,8 @@ function Subscription() {
         </div>
     );
 }
+
+
 
 export default Subscription;
 

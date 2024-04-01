@@ -5,6 +5,8 @@ import { Navbar, Container, Nav } from "react-bootstrap";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { Button } from 'react-bootstrap';
 
+const primaryColor = localStorage.getItem("primary_color");
+  const secondaryColor = localStorage.getItem("secondary_color");
 
 const MerchantLogin = () => {
   const [loginData, setLoginData] = useState({
@@ -72,10 +74,10 @@ const MerchantLogin = () => {
   
   return (
     <div style={{height:"100%", display: "flex",alignItems: "center", justifyItems: "center"}}>
-<div className='login-div' style={{height: "40%", width: "45%", color: "crimson", backgroundColor: "cornsilk", display: "flex", justifyContent: "space-around", alignItems: "center",borderRadius: "50px", padding: "0.5rem"}}>
+<div className='login-div' style={{height: "40%", width: "45%", display: "flex", justifyContent: "space-around", alignItems: "center",borderRadius: "50px", padding: "0.5rem"}}>
       <h2 style={{flexGrow: "1"}}>Merchant Login</h2>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+      {errorMessage && <p >{errorMessage}</p>}
+      {successMessage && <p >{successMessage}</p>}
       <form onSubmit={handleLogin} style={{flexGrow: "2", display: "flex", alignItems: "center", flexDirection: "column"}}>
         {/* Same JSX structure as UserLogin */}
         <label>
@@ -91,7 +93,7 @@ const MerchantLogin = () => {
         </label>
         <br />
         {/* <button type="submit">Login</button> */}
-        <Button variant="warning" type="submit">Login</Button>
+        <Button style={{ backgroundColor : primaryColor, color : secondaryColor }} type="submit">Login</Button>
       </form>
       <div style = {{
     flexGrow: "1",

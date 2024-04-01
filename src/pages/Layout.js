@@ -9,6 +9,9 @@ import axios from "axios"; // Import Axios
 const Layout = () => {
   const [subscriptions, setSubscriptions] = useState([]);
   const isLoggedIn = localStorage.getItem("customerAccessToken") !== null;
+  const logoUrl = localStorage.getItem("logo_url");
+  const primaryColor = localStorage.getItem("primary_color");
+  const secondaryColor = localStorage.getItem("secondary_color");
   const location = useLocation();
   const isMerchantLogin = location.pathname === "/merchantLogin";
   const isCustomerLogin = location.pathname === "/customerLogin";
@@ -46,13 +49,17 @@ const Layout = () => {
   const handleSettingsClick = () => {
     setShowCustomization(true);
   };
+  
+  const merchant_id = localStorage.getItem("merchantID");
+  const planRoute = `/plans?merchant_id=${merchant_id}`
+
 
   return (
-    <>
-      <Navbar bg="light" expand="lg">
-        <Container>
+    <div style={{backgroundColor : primaryColor, color : secondaryColor}}>
+      <Navbar bg="light" expand="lg" className="sticky-top">
+        <Container style={{minWidth:"100%"}}>
           <Navbar.Brand as={Link} to="/">
-            <img src={logo} alt="Logo" width="50" height="50" />{" "}
+            <img src={logoUrl != null?logoUrl:logo} alt="Logo" width="50" height="50" />{" "}
             {/* Adjust width and height as needed */}
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -60,6 +67,9 @@ const Layout = () => {
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/" style={{ marginRight: "10px" }}>
                 Home
+              </Nav.Link>
+              <Nav.Link as={Link} to={planRoute} style={{ marginRight: "10px" }}>
+                Plans
               </Nav.Link>
               {isLoggedIn ? (
                 <>
@@ -114,7 +124,7 @@ const Layout = () => {
         </Container>
       </Navbar>
       <Outlet />
-    </>
+    </div>
   );
 };
 
